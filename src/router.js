@@ -55,7 +55,14 @@ const routes = [
   path: '/register-moru',
   name: 'RegisterMoru',
   component: () => import('@/components/RegisterMoru.vue')
+},
+{
+  path: "/admin/user-management",
+  name: "AdminUserList",
+  component: () => import("@/components/admin/AdminUserList.vue"),
+  meta: { requiresAuth: true, roles: ["ROLE_ADMIN"] }
 }
+
 
 ];
 

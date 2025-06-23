@@ -76,6 +76,13 @@
               class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">👤
               User</router-link>
           </li>
+
+           <li v-if="currentUser && currentUser.roles.includes('ROLE_ADMIN')">
+        <router-link to="/admin/user-management"
+          class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+          🛠 Manage Users
+        </router-link>
+      </li>
         </ul>
       </div>
     </aside>
