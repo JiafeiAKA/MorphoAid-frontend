@@ -15,7 +15,8 @@
           <td class="py-2 px-4 border">{{ user.username }}</td>
           <td class="py-2 px-4 border">{{ user.email }}</td>
           <td class="py-2 px-4 border">
-            <span v-for="role in user.roles" :key="role" class="inline-block px-2 py-1 text-xs rounded bg-blue-100 text-blue-800 mr-1">
+            <span v-for="role in user.roles" :key="role"
+              class="inline-block px-2 py-1 text-xs rounded bg-blue-100 text-blue-800 mr-1">
               {{ role }}
             </span>
           </td>
@@ -34,6 +35,7 @@
       :show="showModal"
       @close="closeModal"
       @updated="fetchUsers"
+      @update-role="updateUserRole"
     />
   </div>
 </template>
@@ -53,14 +55,30 @@ export default {
     };
   },
   methods: {
+    getToken() {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      const token = storedUser?.accessToken || null;
+      console.log("✅ token: ", token);
+      return token;
+    },
     fetchUsers() {
-      axios.get('http://localhost:8080/api/admin/users')
-        .then(res => {
-          this.users = res.data;
-        })
-        .catch(err => {
-          console.error('Error fetching users:', err);
-        });
+      const token = this.getToken();
+      if (!token) {
+        console.error("❌ No token found in localStorage");
+        return;
+      }
+
+      axios.get('http://localhost:8080/api/admin/users', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        this.users = res.data;
+      })
+      .catch(err => {
+        console.error('Error fetching users:', err);
+      });
     },
     openEditModal(user) {
       this.selectedUser = user;
@@ -71,16 +89,41 @@ export default {
       this.selectedUser = null;
     },
     deleteUser(userId) {
+      const token = this.getToken();
+      if (!token) return;
+
       if (confirm('Are you sure you want to delete this user?')) {
-        axios.delete(`http://localhost:8080/api/admin/users/${userId}`)
-          .then(() => {
-            this.fetchUsers();
-          })
-          .catch(err => {
-            console.error('Failed to delete user:', err);
-          });
+        axios.delete(`http://localhost:8080/api/admin/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(() => {
+          this.fetchUsers();
+        })
+        .catch(err => {
+          console.error('Failed to delete user:', err);
+        });
       }
     },
+    updateUserRole({ userId, newRole }) {
+      const token = this.getToken();
+      if (!token) return;
+
+      return axios.put(`http://localhost:8080/api/admin/users/${userId}/role`, {
+        role: newRole
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(() => {
+        this.fetchUsers();
+      })
+      .catch(err => {
+        console.error('Failed to update user role:', err);
+      });
+    }
   },
   mounted() {
     this.fetchUsers();
@@ -89,7 +132,8 @@ export default {
 </script>
 
 <style scoped>
-th, td {
+th,
+td {
   text-align: left;
 }
 </style>

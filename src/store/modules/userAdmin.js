@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 const state = () => ({
   users: [],
 });
@@ -22,27 +23,42 @@ const mutations = {
 const actions = {
   async fetchUsers({ commit }) {
     try {
-      const res = await axios.get('/api/admin/users');
+      const token = localStorage.getItem('accessToken');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+
+      const res = await axios.get('/api/admin/users', config);
       commit('setUsers', res.data);
     } catch (err) {
       console.error('Failed to fetch users:', err);
       throw err;
     }
   },
+
   async updateUserRole({ commit }, { userId, newRole }) {
     try {
-      const res = await axios.put(`/api/admin/users/${userId}/role`, {
-        role: newRole
-      });
+      const token = localStorage.getItem('accessToken');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+
+      const res = await axios.put(`/api/admin/users/${userId}/role`, { role: newRole }, config);
       commit('updateUser', res.data);
     } catch (err) {
       console.error('Failed to update role:', err);
       throw err;
     }
   },
+
   async deleteUser({ commit }, userId) {
     try {
-      await axios.delete(`/api/admin/users/${userId}`);
+      const token = localStorage.getItem('accessToken');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+
+      await axios.delete(`/api/admin/users/${userId}`, config);
       commit('removeUser', userId);
     } catch (err) {
       console.error('Failed to delete user:', err);

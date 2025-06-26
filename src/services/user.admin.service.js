@@ -1,18 +1,18 @@
-import axios from "axios";
+import http from '../http-common';
 
-const API_URL = "/api/admin/";
+
 
 class UserAdminService {
   getUsers() {
-    return axios.get(API_URL + "users");
+    return http.get('/admin/users');
   }
 
   updateUserRole(userId, role) {
-    return axios.put(API_URL + `users/${userId}/role`, { role });
+    return http.put(`/admin/users/${userId}/role`, { role });
   }
 
   deleteUser(userId) {
-    return axios.delete(API_URL + `users/${userId}`);
+    return http.delete(`/admin/users/${userId}`);
   }
 }
 
