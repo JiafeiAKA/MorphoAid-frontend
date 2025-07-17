@@ -10,37 +10,39 @@
           <Form @submit="handleRegister" :validation-schema="schema" class="space-y-4 md:space-y-6">
             <div>
               <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-              <Field name="username" type="text" id="username" placeholder="johndoe" class="input-field" />
+              <Field name="username" type="text" id="username"  class="input-field" />
+              <p class="text-sm italic text-gray-600">Must have at least 6 characters</p>
               <ErrorMessage name="username" class="error-msg" />
             </div>
 
             <div>
               <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-              <Field name="firstName" type="text" id="firstName" placeholder="John" class="input-field" />
+              <Field name="firstName" type="text" id="firstName"  class="input-field" />
               <ErrorMessage name="firstName" class="error-msg" />
             </div>
 
             <div>
               <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-              <Field name="lastName" type="text" id="lastName" placeholder="Doe" class="input-field" />
+              <Field name="lastName" type="text" id="lastName"  class="input-field" />
               <ErrorMessage name="lastName" class="error-msg" />
             </div>
 
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-              <Field name="email" type="email" id="email" placeholder="john@example.com" class="input-field" />
+              <Field name="email" type="email" id="email" class="input-field" />
               <ErrorMessage name="email" class="error-msg" />
             </div>
 
             <div>
               <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-              <Field name="password" type="password" id="password" placeholder="••••••••" class="input-field" />
+              <Field name="password" type="password" id="password"  class="input-field" />
+              <p class="text-sm italic text-gray-600">Must have at least 8 characters</p>
               <ErrorMessage name="password" class="error-msg" />
             </div>
 
             <div>
               <label for="confirmPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
-              <Field name="confirmPassword" type="password" id="confirmPassword" placeholder="••••••••" class="input-field" />
+              <Field name="confirmPassword" type="password" id="confirmPassword" class="input-field" />
               <ErrorMessage name="confirmPassword" class="error-msg" />
             </div>
 
@@ -57,7 +59,7 @@
               class="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5"
               :disabled="loading"
             >
-              <span v-if="loading" class="animate-spin mr-2">⏳</span> Sign Up
+              <span v-if="loading" class="animate-spin mr-2">⏳</span> Register
             </button>
           </Form>
 
@@ -103,7 +105,8 @@ export default {
         username: yup
           .string()
           .required("Username is required")
-          .min(3, "Username must be at least 3 characters"),
+          .min(3, "Username must be at least 3 characters")
+          .max(10, "Username must not exceed 10 characters"),
         firstName: yup.string().required("First name is required"),
         lastName: yup.string().required("Last name is required"),
         email: yup
@@ -113,7 +116,8 @@ export default {
         password: yup
           .string()
           .required("Password is required")
-          .min(8, "Password must be at least 8 characters"),
+          .min(8, "Password must be at least 8 characters")
+          .max(20, "Password must not exceed 20 characters"),
         confirmPassword: yup
           .string()
           .oneOf([yup.ref("password")], "Passwords do not match")

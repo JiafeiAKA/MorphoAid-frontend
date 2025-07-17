@@ -1,54 +1,58 @@
 <template>
-  <section class="bg-gray-50 dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <div
-        class="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Sign in to your account
-          </h1>
-          <Form @submit="handleLogin" :validation-schema="schema" class="space-y-4 md:space-y-6">
-            <div>
-              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-              <Field name="email" type="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                placeholder="name@example.com" />
-              <ErrorMessage name="email" class="text-red-500 text-sm mt-1 block" />
-            </div>
-            <div>
-              <label for="password"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-              <Field name="password" type="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                placeholder="••••••••" />
-              <ErrorMessage name="password" class="text-red-500 text-sm mt-1 block" />
-            </div>
+  <section class="bg-gradient-to-b from-blue-100 to-blue-200 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md text-center space-y-6">
+      <h1 class="text-2xl font-bold text-gray-900">MorphoAid</h1>
+      <p class="text-gray-600 text-sm">Let’s get you all set up so you can access your personal account.</p>
 
-            <button type="submit"
-              class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              :disabled="loading">
-              <svg v-show="loading" class="animate-spin h-4 w-4 mr-2 inline-block text-white"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-              </svg>
-              <span>Login</span>
-            </button>
-
-            <div v-if="message" class="text-red-600 text-sm text-center">
-              {{ message }}
-            </div>
-
-            <p class="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
-              Don’t have an account?
-              <router-link to="/select-role" class="font-medium text-blue-600 hover:underline dark:text-blue-500">
-                Register
-              </router-link>
-            </p>
-
-          </Form>
+      <Form @submit="handleLogin" :validation-schema="schema" class="space-y-4 text-left">
+        <div>
+          <label for="email" class="block mb-1 text-sm font-medium text-gray-700">Email</label>
+          <Field name="email" type="email"
+            class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+             />
+          <ErrorMessage name="email" class="text-red-500 text-xs mt-1 block" />
         </div>
-      </div>
+
+        <div>
+          <label for="password" class="block mb-1 text-sm font-medium text-gray-700">Password</label>
+          <Field name="password" type="password"
+            class="w-full border border-gray-300 rounded-md p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+         />
+          <ErrorMessage name="password" class="text-red-500 text-xs mt-1 block" />
+        </div>
+
+        <div class="flex items-center justify-between text-sm">
+          <label class="inline-flex items-center">
+            <input type="checkbox" class="mr-2 border-gray-300 rounded" />
+            Remember me
+          </label>
+          <router-link to="/forgot-password" class="text-red-500 hover:underline">
+            Forgot Password
+          </router-link>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-2.5 rounded-md transition duration-200"
+          :disabled="loading">
+          <svg v-show="loading" class="animate-spin h-4 w-4 mr-2 inline-block text-white" xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+          </svg>
+          <span>Login</span>
+        </button>
+
+        <div v-if="message" class="text-red-600 text-sm text-center">
+          {{ message }}
+        </div>
+
+        <p class="text-center text-sm text-gray-600">
+          Don’t have an account?
+          <router-link to="/select-role" class="text-red-500 font-medium hover:underline">
+            Register
+          </router-link>
+        </p>
+      </Form>
     </div>
   </section>
 </template>
