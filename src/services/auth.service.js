@@ -17,11 +17,9 @@ class AuthService {
       });
   }
 
-
   logout() {
     localStorage.removeItem('user');
   }
-
 
   register(user) {
     return axios.post(API_URL + 'signup', {
@@ -30,12 +28,12 @@ class AuthService {
       lastName: user.lastName,
       email: user.email,
       password: user.password,
-      roles: user.roles,  
-      invitationToken: user.invitationToken 
+      confirmPassword: user.confirmPassword, 
+      roles: user.roles,
+      agree: user.agree,                     
+      invitationToken: user.invitationToken  
     });
   }
-
-
 }
 
 export default new AuthService();
