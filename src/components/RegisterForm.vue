@@ -106,7 +106,7 @@ export default {
           .string()
           .required("Username is required")
           .min(3, "Username must be at least 3 characters")
-          .max(10, "Username must not exceed 10 characters"),
+          .max(15, "Username must not exceed 15 characters"),
         firstName: yup.string().required("First name is required"),
         lastName: yup.string().required("Last name is required"),
         email: yup
