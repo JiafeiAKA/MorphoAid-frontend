@@ -27,16 +27,17 @@
         </tr>
       </tbody>
     </table>
+    <div class="mt-4 flex justify-center items-center space-x-4">
+      <button @click="prevPage" :disabled="currentPage === 0" class="px-4 py-1 bg-gray-200 rounded">Previous</button>
+      <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage >= totalPages - 1"
+        class="px-4 py-1 bg-gray-200 rounded">Next</button>
+    </div>
+
 
     <!-- Edit Role Modal -->
-    <EditUserRoleModal
-      v-if="selectedUser"
-      :user="selectedUser"
-      :show="showModal"
-      @close="closeModal"
-      @updated="fetchUsers"
-      @update-role="updateUserRole"
-    />
+    <EditUserRoleModal v-if="selectedUser" :user="selectedUser" :show="showModal" @close="closeModal"
+      @updated="fetchUsers" @update-role="updateUserRole" />
   </div>
 </template>
 
@@ -52,8 +53,11 @@ export default {
       users: [],
       showModal: false,
       selectedUser: null,
+      currentPage: 0,
+      totalPages: 1
     };
   },
+
   methods: {
     getToken() {
       const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -63,23 +67,22 @@ export default {
     },
     fetchUsers() {
       const token = this.getToken();
-      if (!token) {
-        console.error("❌ No token found in localStorage");
-        return;
-      }
+      if (!token) return;
 
-      axios.get('http://localhost:8080/api/admin/users', {
+      axios.get(`http://localhost:8080/api/admin/users?page=${this.currentPage}&size=20`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
-      .then(res => {
-        this.users = res.data;
-      })
-      .catch(err => {
-        console.error('Error fetching users:', err);
-      });
+        .then(res => {
+          this.users = res.data.users;
+          this.totalPages = res.data.totalPages;
+        })
+        .catch(err => {
+          console.error("Error fetching paginated users:", err);
+        });
     },
+
     openEditModal(user) {
       this.selectedUser = user;
       this.showModal = true;
@@ -98,12 +101,12 @@ export default {
             Authorization: `Bearer ${token}`
           }
         })
-        .then(() => {
-          this.fetchUsers();
-        })
-        .catch(err => {
-          console.error('Failed to delete user:', err);
-        });
+          .then(() => {
+            this.fetchUsers();
+          })
+          .catch(err => {
+            console.error('Failed to delete user:', err);
+          });
       }
     },
     updateUserRole({ userId, newRole }) {
@@ -117,13 +120,26 @@ export default {
           Authorization: `Bearer ${token}`
         }
       })
-      .then(() => {
+        .then(() => {
+          this.fetchUsers();
+        })
+        .catch(err => {
+          console.error('Failed to update user role:', err);
+        });
+    },
+    prevPage() {
+      if (this.currentPage > 0) {
+        this.currentPage--;
         this.fetchUsers();
-      })
-      .catch(err => {
-        console.error('Failed to update user role:', err);
-      });
-    }
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages - 1) {
+        this.currentPage++;
+        this.fetchUsers();
+      }
+    },
+
   },
   mounted() {
     this.fetchUsers();
