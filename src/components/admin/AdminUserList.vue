@@ -4,6 +4,7 @@
     <table class="min-w-full bg-white border border-gray-200 shadow">
       <thead>
         <tr class="bg-gray-100">
+          <th class="py-2 px-4 border">ID</th> 
           <th class="py-2 px-4 border">Username</th>
           <th class="py-2 px-4 border">Email</th>
           <th class="py-2 px-4 border">Roles</th>
@@ -12,6 +13,7 @@
       </thead>
       <tbody>
         <tr v-for="user in users" :key="user.id" class="text-center">
+          <td class="py-2 px-4 border">{{ user.id }}</td> 
           <td class="py-2 px-4 border">{{ user.username }}</td>
           <td class="py-2 px-4 border">{{ user.email }}</td>
           <td class="py-2 px-4 border">
