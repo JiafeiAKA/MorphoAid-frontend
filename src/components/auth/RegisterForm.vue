@@ -1,6 +1,6 @@
 <template>
     <section class="fixed inset-0 bg-gradient-to-b from-[#F0F8FF] via-[#B8E7FC]/75 to-[#F0F8FF] flex items-center justify-center px-4">
-    <div class="w-full max-w-[340px] sm:max-w-[420px] md:max-w-[480px] bg-white/60 backdrop-blur-md shadow-2xl rounded-[20px] flex flex-col items-center gap-4 px-4 py-6 sm:px-6 sm:py-8">
+    <div class="w-full max-w-[340px] sm:max-w-[420px] md:max-w-[480px] bg-white/60 backdrop-blur-md shadow-2xl rounded-lg flex flex-col items-center gap-4 px-14 py-6 sm:px-14 sm:py-8">
       <h1 class="text-2xl md:text-3xl font-bold text-[#2E2E2E] text-center">Register</h1>
       <p class="text-xs md:text-sm text-[#5C5C5C] text-center leading-relaxed">
         Let’s get you all set up so you can access your personal account.
