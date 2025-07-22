@@ -1,12 +1,13 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Home from "./components/Home.vue";
-import Login from "./components/Login.vue";
+import Home from './views/shared/Home.vue';
+import Login from './views/auth/Login.vue';
 
 // lazy-loaded
-const Profile = () => import("./components/Profile.vue");
-const BoardAdmin = () => import("./components/BoardAdmin.vue");
-const BoardModerator = () => import("./components/BoardModerator.vue");
-const BoardUser = () => import("./components/BoardUser.vue");
+const Profile = () => import("./views/admin/Profile.vue");
+const BoardAdmin = () => import("./components/dashboard/AdminDashboard.vue");
+const BoardModerator = () => import("./components/dashboard/MoruDashboard.vue");
+const BoardUser = () => import("./components/dashboard/DoctorDashboard.vue");
+const Dashboard = () => import('@/views/Dashboard.vue');
 
 const routes = [
   {
@@ -44,23 +45,29 @@ const routes = [
   {
   path: '/select-role',
   name: 'RoleSelection',
-  component: () => import('@/components/RoleSelection.vue')
+  component: () => import('@/views/auth/RoleSelection.vue')
 },
 {
   path: '/register-doctor',
   name: 'RegisterDoctor',
-  component: () => import('@/components/RegisterDoctor.vue')
+  component: () => import('@/views/auth/RegisterDoctor.vue')
 },
 {
   path: '/register-moru',
   name: 'RegisterMoru',
-  component: () => import('@/components/RegisterMoru.vue')
+  component: () => import('@/views/auth/RegisterMoru.vue')
 },
 {
   path: "/admin/user-management",
   name: "AdminUserList",
   component: () => import("@/components/admin/AdminUserList.vue"),
   meta: { requiresAuth: true, roles: ["ROLE_ADMIN"] }
+},
+{
+  path: '/dashboard',
+  name: 'dashboard',
+  component: Dashboard,
+  meta: { requiresAuth: true }
 }
 
 
@@ -71,17 +78,5 @@ const router = createRouter({
   routes,
 });
 
-// Uncomment this if you want auth guard
-// router.beforeEach((to, from, next) => {
-//   const publicPages = ['/login', '/register', '/home'];
-//   const authRequired = !publicPages.includes(to.path);
-//   const loggedIn = localStorage.getItem('user');
-//
-//   if (authRequired && !loggedIn) {
-//     next('/login');
-//   } else {
-//     next();
-//   }
-// });
 
 export default router;

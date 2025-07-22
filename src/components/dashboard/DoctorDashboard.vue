@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import UserService from "../services/user.service";
+import UserService from "../../services/user.service";
 
 export default {
-  name: "AdminBoard",
+  name: 'BoardUserComponent',
   data() {
     return {
       content: "",
@@ -19,7 +19,7 @@ export default {
     };
   },
   mounted() {
-    UserService.getAdminBoard().then(
+    UserService.getUserBoard().then(
       (response) => {
         this.content = response.data;
         this.error = false;
@@ -35,7 +35,7 @@ export default {
         this.content = message;
         this.error = true;
 
-        // 🔐 ถ้า Unauthorized → redirect กลับ /login
+        // 🔐 ถ้า token หมดอายุหรือไม่มีสิทธิ์ → redirect ไปหน้า login
         if (error.response && error.response.status === 401) {
           this.$router.push("/login");
         }
