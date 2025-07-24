@@ -1,29 +1,35 @@
 <template>
-  <!-- ป้องกันการ render จนกว่า currentUser จะมีค่า -->
-  <div class="container" v-if="currentUser">
-    <header class="jumbotron">
-      <h3>
-        <strong>{{ currentUser.username }}</strong> Profile
-      </h3>
-    </header>
-    <p>
-      <strong>Token:</strong>
-      {{ currentUser.accessToken.substring(0, 20) }} ...
-      {{ currentUser.accessToken.substr(currentUser.accessToken.length - 20) }}
-    </p>
-    <p>
-      <strong>Id:</strong>
-      {{ currentUser.id }}
-    </p>
-    <p>
-      <strong>Email:</strong>
-      {{ currentUser.email }}
-    </p>
-    <strong>Authorities:</strong>
-    <ul>
-      <li v-for="role in currentUser.roles" :key="role">{{ role }}</li>
-    </ul>
-  </div>
+  <section class="min-h-[80vh] bg-gradient-to-b from-[#F0F8FF] via-[#B8E7FC]/50 to-[#F0F8FF] px-4 py-10 flex justify-center">
+    <div v-if="currentUser" class="w-full max-w-xl bg-white/80 backdrop-blur-md rounded-xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-[#2E2E2E] mb-6 text-center">
+      Profile
+      </h2>
+
+      <div class="space-y-4 text-sm text-gray-700">
+        <p>
+          <span class="font-semibold text-gray-800">🔐 Token:</span><br />
+          <span class="break-all">
+            {{ currentUser.accessToken.substring(0, 20) }}...{{ currentUser.accessToken.slice(-20) }}
+          </span>
+        </p>
+
+        <p>
+          <span class="font-semibold text-gray-800">🆔 ID:</span> {{ currentUser.id }}
+        </p>
+
+        <p>
+          <span class="font-semibold text-gray-800">📧 Email:</span> {{ currentUser.email }}
+        </p>
+
+        <div>
+          <span class="font-semibold text-gray-800">🎖️ Roles:</span>
+          <ul class="mt-1 list-disc list-inside text-sm text-[#2E2E2E]">
+            <li v-for="role in currentUser.roles" :key="role">{{ role }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>

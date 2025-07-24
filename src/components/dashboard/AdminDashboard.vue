@@ -1,10 +1,11 @@
 <template>
-  <div class="container">
-    <header class="jumbotron">
-      <h3 class="text-red-500" v-if="error">{{ content }}</h3>
-      <h3 v-else>{{ content }}</h3>
-    </header>
-  </div>
+  <section class="min-h-[80vh] flex items-center justify-center px-4 py-10 bg-gradient-to-b from-[#F0F8FF] to-[#E6F7FF]">
+    <div class="bg-white/80 backdrop-blur-md shadow-xl rounded-xl p-8 max-w-xl w-full text-center">
+      <h2 class="text-2xl font-bold text-[#2E2E2E] mb-4">Admin Board</h2>
+      <p v-if="error" class="text-red-500 font-medium">{{ content }}</p>
+      <p v-else class="text-gray-700">{{ content }}</p>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -26,17 +27,14 @@ export default {
       },
       (error) => {
         const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
+          (error.response?.data?.message) ||
           error.message ||
           error.toString();
 
         this.content = message;
         this.error = true;
 
-        // 🔐 ถ้า Unauthorized → redirect กลับ /login
-        if (error.response && error.response.status === 401) {
+        if (error.response?.status === 401) {
           this.$router.push("/login");
         }
       }

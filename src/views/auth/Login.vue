@@ -29,20 +29,12 @@
 
           <!-- Remember Me / Forgot -->
           <div class="w-full flex md:w-[512px] justify-between items-center text-sm">
-            <!-- Remember me -->
-            <label class="inline-flex items-center gap-2">
-              <input id="remember" type="checkbox" class="border border-gray-300" />
-              <span for="remember" class="text-xs md:text-sm text-gray-700">Remember me</span>
-            </label>
-
-            <!-- Forgot Password -->
-            <router-link to="/forgot-password"
-              class="text-xs md:text-sm text-red-600 hover:underline hover:text-[#A92222]">
-              Forgot Password
-            </router-link>
           </div>
 
         </div>
+<p v-if="message" class="text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-2 rounded w-full md:w-[512px] text-center">
+  {{ message }}
+</p>
 
         <!-- Sign In Button -->
         <div class="flex flex-col gap-4 w-full items-center">
